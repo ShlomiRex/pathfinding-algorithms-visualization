@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import Tile from './Tile';
-import styled from 'styled-components';
 
 var last_tile_mouse_down = -1;
 var last_tile_mouse_up = -1;
 var is_pressing = false;
-var already_colored= [];
 var is_coloring_or_erasing = true; // true = coloring, false = erasing
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(10, 50px);
-  //gap: 2px;
-`;
 
 function Grid() {
     const [grid, setGrid] = useState(
@@ -53,19 +46,20 @@ function Grid() {
     }
 
     return (
-        <GridContainer>
-            {grid.map((tile, index) => (
+        <div className="grid_container">
+            {
+                grid.map((tile, index) => (
                 <Tile
                     key={index}
-                    is_colored={tile.is_colored}
-                    is_start={tile.is_start}
-                    is_finish={tile.is_finish}
+                    is_colored={tile.is_colored.toString()}
+                    is_start={tile.is_start.toString()}
+                    is_finish={tile.is_finish.toString()}
                     onMouseDown={() => handleMouseDown(index)}
                     onMouseUp={() => handleMouseUp(index)}
                     onMouseEnter={() => handleMouseEnter(index)}
                 />
             ))}
-        </GridContainer>
+        </div>
     );
 }
 
