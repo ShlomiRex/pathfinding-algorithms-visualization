@@ -42,7 +42,7 @@ jobs:
           path: 'dist/'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: JamesIves/github-pages-deploy-action@4 # Use a specialized action for deploying to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: main # You can change this if you want to deploy to a different branch
           folder: dist # Specify the folder where your built site is located
