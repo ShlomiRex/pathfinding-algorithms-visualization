@@ -11,4 +11,18 @@
     cursor: pointer;
     user-select: none;
     -webkit-user-drag: none;
+    /*transition: background-color 0.3s ease;*/
+    /* Cool background transition, increasing background from center to fill entire tile */
+    background-image: linear-gradient(#0001ff, #0001ff);
+    background-repeat: no-repeat;
+    transition: background-size .25s, color .25s;
+    background-position: 50% 50%;
+    background-size: 0% 0%;
 }
+
+.Tile[is_colored="true"] {
+    background-size: 100% 100%;
+    color: #fff;
+}
+
+

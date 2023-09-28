@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const TileContainer = styled.div`
-  background-color: ${(props) => (props.is_colored === "true" ? 'blue' : 'white')};
   ${(props) =>
           props.is_start === "true" &&
           css`
