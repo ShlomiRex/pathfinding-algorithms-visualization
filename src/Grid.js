@@ -6,7 +6,6 @@ var last_tile_mouse_up = -1;
 var is_pressing = false;
 var is_coloring_or_erasing = true; // true = coloring, false = erasing
 
-
 function Grid() {
     const [grid, setGrid] = useState(
         Array(100)
@@ -51,6 +50,7 @@ function Grid() {
                 grid.map((tile, index) => (
                 <Tile
                     key={index}
+                    index={index}
                     is_colored={tile.is_colored.toString()}
                     is_start={tile.is_start.toString()}
                     is_finish={tile.is_finish.toString()}
