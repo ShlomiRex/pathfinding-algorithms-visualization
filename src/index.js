@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import _ from 'lodash';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
