@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import './App.css';
 import './ContextMenu.css';
 
-const ContextMenu= ({ targetId, options, classes }) => {
+const ContextMenu= ({ targetId, options, classes, gridSetStartingPoint, gridSetFinishPoint }) => {
     const [contextData, setContextData]= useState({ visible:false, posX: 0, posY: 0});
     const contextRef= useRef(null);;
 
@@ -12,7 +12,7 @@ const ContextMenu= ({ targetId, options, classes }) => {
             if(targetElement && targetElement.contains(event.target)){
                 event.preventDefault();
                 setContextData({ visible: true, posX: event.clientX, posY: event.clientY })
-            }else if(contextRef.current && !contextRef.current.contains(event.target)){
+            } else if(contextRef.current && !contextRef.current.contains(event.target)){
                 setContextData({ ...contextData, visible: false })
             }
         }
@@ -24,6 +24,12 @@ const ContextMenu= ({ targetId, options, classes }) => {
             }
 
             console.log('Clicked on: ', event.target, 'Context menu: ', contextRef.current, 'Context data: ', contextData, 'Target id: ', targetId, 'Event: ', event);
+
+            if (event.target.innerText === "Set starting point") {
+                gridSetStartingPoint(1);
+            } else if (event.target.innerText === "Set finish point") {
+                gridSetFinishPoint(1);
+            }
         }
 
         document.addEventListener('contextmenu', contextMenuEventHandler)

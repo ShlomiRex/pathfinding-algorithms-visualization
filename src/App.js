@@ -8,19 +8,21 @@ import './App.css';
 function App() {
     const gridRef = React.createRef();
 
-    const handleMenuItemClick = (menuItem) => {
-        alert(`Clicked on "${menuItem}"`);
-    };
-
-    const menuItems = [
-        { label: 'Item 1', onClick: () => handleMenuItemClick('Item 1') },
-        { label: 'Item 2', onClick: () => handleMenuItemClick('Item 2') },
-        { label: 'Item 3', onClick: () => handleMenuItemClick('Item 3') },
-    ];
-
     function clear_grid() {
         if (gridRef.current) {
             gridRef.current.clear_grid();
+        }
+    }
+
+    function set_starting_point(index) {
+        if (gridRef.current) {
+            gridRef.current.setStartingPoint(index);
+        }
+    }
+
+    function set_finish_point(index) {
+        if (gridRef.current) {
+            gridRef.current.setFinishPoint(index);
         }
     }
 
@@ -39,8 +41,10 @@ function App() {
                             listWrapper: 'customContextmenuArea1ListWrapper',
                             listItem: 'customContextmenuArea1ListItem'
                         }}
+                        gridSetStartingPoint = {set_starting_point}
+                        gridSetFinishPoint = {set_finish_point}
                     />
-                    <Grid  ref={gridRef} />
+                    <Grid ref={gridRef} />
                 </div>
             </div>
 

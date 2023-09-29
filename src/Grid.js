@@ -63,6 +63,14 @@ class Grid extends React.Component {
         this.setState({ grid: clearedGrid });
     };
 
+    setStartingPoint = (index) => {
+        console.log("Setting starting point");
+    }
+
+    setFinishPoint = (index) => {
+        console.log("Setting finish point");
+    }
+
     render() {
         return (
             <div className="grid_container">
