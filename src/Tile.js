@@ -39,7 +39,12 @@ class Tile extends Component {
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onMouseEnter={onMouseEnter}
-            />
+            >
+                {/*TODO: Remove after debugging algos*/}
+                <span>
+                    {index}
+                </span>
+            </TileContainer>
         );
     }
 }

@@ -1,22 +1,73 @@
-// Implement getNeighbors function
 function getNeighbors(grid, index, rows, columns) {
-    // Return an array of indexes that represent the neighbors of the given index
-    // The neighbors are the indexes of the tiles that are above, below, left and right of the given index
-    // If the given index is on the edge of the grid, the neighbors that are outside of the grid are not included in the array
-    // If the given index is on the corner of the grid, the neighbors that are outside of the grid are not included in the array
+    /**
+     * Get the neighbors of the given index
+     * @param {Array} grid The grid
+     * @param {number} index The index to get the neighbors of
+     * @param {number} rows The number of rows in the grid
+     * @param {number} columns The number of columns in the grid
+     */
 
+    // Initialize the neighbors array
     let neighbors = [];
 
-    // Check if the index is on the top edge of the grid
-    if (index >= 0 && index < columns) {
-        // The index is on the top edge of the grid
-        // Do not include the top neighbor
+    // Get the row and column of the index
+    const row = Math.floor(index / columns);
+    const column = index % columns;
 
-        // Check if the index is on the left edge of the grid
-        if (index % columns === 0) {
-
-        }
+    // Check if the index has a neighbor above
+    if (row > 0) {
+        neighbors.push(index - columns);
     }
+
+    // Check if the index has a neighbor below
+    if (row < rows - 1) {
+        neighbors.push(index + columns);
+    }
+
+    // Check if the index has a neighbor to the left
+    if (column > 0) {
+        neighbors.push(index - 1);
+    }
+
+    // Check if the index has a neighbor to the right
+    if (column < columns - 1) {
+        neighbors.push(index + 1);
+    }
+
+    return neighbors;
+}
+
+function is_valid(grid, index, rows, columns, visited) {
+    /**
+     * Check if the given index is valid
+     * @param {Array} grid The grid
+     * @param {number} index The index to check
+     * @param {number} rows The number of rows in the grid
+     * @param {number} columns The number of columns in the grid
+     * @param {Array} visited An array of booleans that represent if a tile was visited or not
+     */
+
+    // Check if within bounds
+    if (index < 0 || index >= rows * columns) {
+        return false;
+    }
+
+    // If visited this is not valid
+    if (visited[index]) {
+        return false;
+    }
+
+    // If wall, not valid
+    if (grid[index].is_colored === true) {
+        return false;
+    }
+
+    // If start or finish, not valid
+    if (grid[index].is_start === true || grid[index].is_finish === true) {
+        return false;
+    }
+
+    return true;
 }
 
 export default function findDFSPath(grid, rows, columns, start_index, finish_index) {
@@ -28,16 +79,10 @@ export default function findDFSPath(grid, rows, columns, start_index, finish_ind
     let stack = [];
     stack.push(start_index);
 
-    // Initialize the visited array
+    // Initialize the visited array (auxiliary array)
     let visited = [];
     for (let i = 0; i < rows * columns; i++) {
         visited.push(false);
-    }
-
-    // Initialize the parent array
-    let parent = [];
-    for (let i = 0; i < rows * columns; i++) {
-        parent.push(-1);
     }
 
     // Initialize the path array
@@ -51,41 +96,42 @@ export default function findDFSPath(grid, rows, columns, start_index, finish_ind
         // Get the current index
         let current_index = stack.pop();
 
+        console.log("Current index: ", current_index);
+
         // Check if the current index is the finish index
         if (current_index === finish_index) {
             found = true;
             break;
         }
 
-        // Check if the current index is already visited
-        if (visited[current_index]) {
-            continue;
-        }
+        // Get cells adjacent to the current cell
+        const neighbors = getNeighbors(grid, current_index, rows, columns);
 
-        // Mark the current index as visited
-        visited[current_index] = true;
-
-        // Get the neighbors of the current index
-        let neighbors = getNeighbors(current_index, rows, columns);
-
-        // Add the neighbors to the stack
+        var valid_neighbors = [];
         for (let i = 0; i < neighbors.length; i++) {
-            if (visited[neighbors[i]]) {
-                continue;
+            // Check each neighbor
+            const neighbor = neighbors[i];
+
+            // Check valid
+            const isValid = is_valid(grid, neighbor, rows, columns, visited);
+
+            if (isValid) {
+                // Add the neighbor index to the path
+                path.push(neighbor);
+                stack.push(neighbor);
+                valid_neighbors.push(neighbor);
             }
-            stack.push(neighbors[i]);
-            parent[neighbors[i]] = current_index;
+
+            // Mark the current index as visited
+            visited[current_index] = true;
         }
+        console.log("Valid neighbors: ", valid_neighbors);
     }
 
-    // If a path was found, reconstruct the path
     if (found) {
-        let current_index = finish_index;
-        while (current_index !== -1) {
-            path.push(current_index);
-            current_index = parent[current_index];
-        }
-        path.reverse();
+        console.log("Path found");
+    } else {
+        console.log("No path found");
     }
 
     return path;

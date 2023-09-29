@@ -31,7 +31,7 @@ function App() {
         const algo = document.getElementById("algo_select").value;
         const state = gridRef.current.state;
         if (algo === "dfs") {
-            findPathDFS(state.grid, state.start_index, state.finish_index);
+            findPathDFS(state.grid, 10, 10, state.start_index, state.finish_index);
         } else {
             console.log("Unknown algorithm");
         }

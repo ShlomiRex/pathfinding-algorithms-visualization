@@ -4,6 +4,11 @@
     width: fit-content;
 }
 
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
 .Tile {
     width: 50px;
     height: 50px;
@@ -12,7 +17,7 @@
     cursor: pointer;
     user-select: none;
     -webkit-user-drag: none;
-    background-image: linear-gradient(#0001ff, #0001ff);
+    background-image: linear-gradient(#000000, #000000);
     background-repeat: no-repeat;
     transition: background-size .25s, color .25s;
     background-position: 50% 50%;

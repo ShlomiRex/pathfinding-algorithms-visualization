@@ -6,6 +6,7 @@
     position: absolute;
     height: auto;
     width: fit-content;
+    user-select: none;
 }
 
 .optionsList {

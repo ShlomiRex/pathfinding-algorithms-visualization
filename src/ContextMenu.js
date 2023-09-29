@@ -4,7 +4,7 @@ import './ContextMenu.css';
 
 const ContextMenu= ({ targetId, options, classes, gridSetStartingPoint, gridSetFinishPoint }) => {
     const [contextData, setContextData]= useState({ visible:false, posX: 0, posY: 0, targetTileIndex: -1});
-    const contextRef= useRef(null);;
+    const contextRef= useRef(null);
 
     useEffect(() => {
         const contextMenuEventHandler= (event) => {
