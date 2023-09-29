@@ -28,9 +28,25 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Color the Grid</h1>
-            <div className="button_pane" onClick={clear_grid}>
-                <button>Clear grid</button>
+            <h1>Pathfinding Algorithms Visualizer</h1>
+            <p>
+                Made by: Shlomi Domnenko
+                <br></br>
+                Source code: <a href="https://github.com/ShlomiRex/pathfinding-algorithms-visualization">github repo</a>
+            </p>
+            <div className="button_pane">
+                <button onClick={clear_grid}>Clear grid</button>
+                <div>
+                     Select algorithm:
+                    <select>
+                        <option value="bfs">BFS</option>
+                        <option value="dfs">DFS</option>
+                        <option value="dijakstra">Dijakstra</option>
+                        <option value="a_star">A*</option>
+                    </select>
+                    <button>Run</button>
+                    <button disabled={true}>Stop</button>
+                </div>
             </div>
             <div className='wrapper'>
                 <div id='customContextmenuArea1' className='customContextmenuArea1' >

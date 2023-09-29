@@ -19,6 +19,12 @@ class Grid extends React.Component {
                     is_finish: index === 99,
                 })),
         };
+
+        // When we go outside grid with mouseup, it doesn't trigger.
+        // So we need to listen to mouseup on window.
+        window.addEventListener('mouseup', () => {
+            is_pressing = false;
+        });
     }
 
     handleMouseDown = (eventData, index) => {
@@ -36,12 +42,17 @@ class Grid extends React.Component {
         this.setState({ grid: this.state.grid });
     };
 
-    handleMouseUp = (index) => {
+    handleTileMouseUp = (index) => {
         last_tile_mouse_up = index;
         is_pressing = false;
     };
 
-    handleMouseEnter = (index) => {
+    handleGridMouseLeave = () => {
+        last_tile_mouse_down = -1;
+        last_tile_mouse_up = -1;
+    }
+
+    handleTileMouseEnter = (index) => {
         if (is_pressing) {
             if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
 
@@ -70,7 +81,7 @@ class Grid extends React.Component {
 
     render() {
         return (
-            <div className="grid_container">
+            <div className="grid_container" onMouseLeave={this.handleGridMouseLeave}>
                 {this.state.grid.map((tile, index) => (
                     <Tile
                         key={index}
@@ -79,8 +90,8 @@ class Grid extends React.Component {
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}
                         onMouseDown={(eventData) => this.handleMouseDown(eventData, index)}
-                        onMouseUp={() => this.handleMouseUp(index)}
-                        onMouseEnter={() => this.handleMouseEnter(index)}
+                        onMouseUp={() => this.handleTileMouseUp(index)}
+                        onMouseEnter={() => this.handleTileMouseEnter(index)}
                     />
                 ))}
             </div>

@@ -1,6 +1,7 @@
 .grid_container {
     display: grid;
     grid-template-columns: repeat(10, 50px);
+    width: fit-content;
 }
 
 .Tile {
@@ -32,5 +33,8 @@
 }
 
 .button_pane {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
     margin-bottom: 30px;
 }
