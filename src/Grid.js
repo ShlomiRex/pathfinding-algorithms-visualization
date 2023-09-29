@@ -77,7 +77,6 @@ class Grid extends React.Component {
     };
 
     setStartingPoint = (index) => {
-        console.log("Setting starting point: ", index, this.state.start_index);
         this.state.grid[this.state.start_index].is_start = false;
         this.state.start_index = index;
         this.state.grid[index].is_start = true;
@@ -85,7 +84,6 @@ class Grid extends React.Component {
     }
 
     setFinishPoint = (index) => {
-        console.log("Setting finish point: ", index);
         this.state.grid[this.state.finish_index].is_finish = false;
         this.state.finish_index = index;
         this.state.grid[index].is_finish = true;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from './Grid';
 import ContextMenu from './ContextMenu';
+import findPathDFS from './algo/DFS';
 
 import './App.css';
 
@@ -26,6 +27,16 @@ function App() {
         }
     }
 
+    function run_algo() {
+        const algo = document.getElementById("algo_select").value;
+        const state = gridRef.current.state;
+        if (algo === "dfs") {
+            findPathDFS(state.grid, state.start_index, state.finish_index);
+        } else {
+            console.log("Unknown algorithm");
+        }
+    }
+
     return (
         <div className="App">
             <h1>Pathfinding Algorithms Visualizer</h1>
@@ -38,13 +49,13 @@ function App() {
                 <button onClick={clear_grid}>Clear grid</button>
                 <div>
                      Select algorithm:
-                    <select>
-                        <option value="bfs">BFS</option>
+                    <select id="algo_select">
                         <option value="dfs">DFS</option>
+                        <option value="bfs">BFS</option>
                         <option value="dijakstra">Dijakstra</option>
                         <option value="a_star">A*</option>
                     </select>
-                    <button>Run</button>
+                    <button onClick={run_algo}>Run</button>
                     <button disabled={true}>Stop</button>
                 </div>
             </div>
