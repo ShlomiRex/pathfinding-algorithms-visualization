@@ -19,7 +19,6 @@ class Grid extends React.Component {
                     is_finish: index === 99,
                 })),
         };
-        //this.grid = this.state.grid;
     }
 
     handleMouseDown = (eventData, index) => {
@@ -33,9 +32,8 @@ class Grid extends React.Component {
 
         if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
 
-        const newGrid = [...this.state.grid];
-        newGrid[index].is_colored = is_coloring_or_erasing;
-        this.setState({ grid: newGrid });
+        this.state.grid[index].is_colored = is_coloring_or_erasing;
+        this.setState({ grid: this.state.grid });
     };
 
     handleMouseUp = (index) => {
@@ -47,9 +45,8 @@ class Grid extends React.Component {
         if (is_pressing) {
             if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
 
-            const newGrid = [...this.state.grid];
-            newGrid[index].is_colored = is_coloring_or_erasing;
-            this.setState({ grid: newGrid });
+            this.state.grid[index].is_colored = is_coloring_or_erasing;
+            this.setState({ grid: this.state.grid });
         }
     };
 
