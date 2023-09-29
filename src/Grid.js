@@ -49,12 +49,13 @@ class Grid extends React.Component {
         }
     };
 
-    clear = () => {
+    clear_grid = () => {
         // Clear the grid by setting all tiles to uncolored
         const clearedGrid = this.state.grid.map((tile) => ({
             ...tile,
             is_colored: false,
         }));
+        this.grid = clearedGrid;
         this.setState({ grid: clearedGrid });
     };
 

@@ -9,7 +9,7 @@ function App() {
 
     function clear_grid() {
         if (gridRef.current) {
-            gridRef.current.clear();
+            gridRef.current.clear_grid();
         }
     }
 
