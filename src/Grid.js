@@ -18,6 +18,8 @@ class Grid extends React.Component {
                     is_start: index === 0,
                     is_finish: index === 99,
                 })),
+            start_index: 0,
+            finish_index: 99,
         };
 
         // When we go outside grid with mouseup, it doesn't trigger.
@@ -62,6 +64,9 @@ class Grid extends React.Component {
     };
 
     clear_grid = () => {
+        this.setStartingPoint(0);
+        this.setFinishPoint(99);
+
         // Clear the grid by setting all tiles to uncolored
         const clearedGrid = this.state.grid.map((tile) => ({
             ...tile,
@@ -72,11 +77,19 @@ class Grid extends React.Component {
     };
 
     setStartingPoint = (index) => {
-        console.log("Setting starting point: ", index);
+        console.log("Setting starting point: ", index, this.state.start_index);
+        this.state.grid[this.state.start_index].is_start = false;
+        this.state.start_index = index;
+        this.state.grid[index].is_start = true;
+        this.setState({ grid: this.state.grid });
     }
 
     setFinishPoint = (index) => {
-        console.log("Setting finish point");
+        console.log("Setting finish point: ", index);
+        this.state.grid[this.state.finish_index].is_finish = false;
+        this.state.finish_index = index;
+        this.state.grid[index].is_finish = true;
+        this.setState({ grid: this.state.grid });
     }
 
     render() {
