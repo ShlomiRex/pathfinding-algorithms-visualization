@@ -22,7 +22,11 @@ class Grid extends React.Component {
         this.grid = this.state.grid;
     }
 
-    handleMouseDown = (index) => {
+    handleMouseDown = (eventData, index) => {
+        // Button 0: Left mouse, Button 1: Middle click, Button 2: Right click
+        if (eventData.button === 2) {
+            return;
+        }
         last_tile_mouse_down = index;
         is_pressing = true;
         is_coloring_or_erasing = !this.grid[index].is_colored;
@@ -69,7 +73,7 @@ class Grid extends React.Component {
                         is_colored={tile.is_colored.toString()}
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}
-                        onMouseDown={() => this.handleMouseDown(index)}
+                        onMouseDown={(eventData) => this.handleMouseDown(eventData, index)}
                         onMouseUp={() => this.handleMouseUp(index)}
                         onMouseEnter={() => this.handleMouseEnter(index)}
                     />

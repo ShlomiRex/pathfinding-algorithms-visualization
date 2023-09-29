@@ -1,0 +1,38 @@
+.contextMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: auto;
+    width: fit-content;
+}
+
+.optionsList {
+    padding: 12px;
+    min-width: 107px;
+    border-radius: 4px;
+}
+
+.optionListItem {
+    padding: 4px;
+    border-radius: 3px;
+    list-style-type: none;
+}
+
+.optionListItem:hover {
+    cursor: pointer;
+}
+
+.customContextmenuArea1ListWrapper {
+    background-color: #ffffff;
+    border: 1px solid black;
+}
+
+.customContextmenuArea1ListItem {
+    list-style-type: disclosure-closed;
+}
+
+.customContextmenuArea1ListItem:hover {
+    background-color: sandybrown;
+}
