@@ -3,15 +3,18 @@ import './App.css';
 import './ContextMenu.css';
 
 const ContextMenu= ({ targetId, options, classes, gridSetStartingPoint, gridSetFinishPoint }) => {
-    const [contextData, setContextData]= useState({ visible:false, posX: 0, posY: 0});
+    const [contextData, setContextData]= useState({ visible:false, posX: 0, posY: 0, targetTileIndex: -1});
     const contextRef= useRef(null);;
 
     useEffect(() => {
         const contextMenuEventHandler= (event) => {
-            const targetElement= document.getElementById(targetId)
+            const targetElement= document.getElementById(targetId);
             if(targetElement && targetElement.contains(event.target)){
-                event.preventDefault();
-                setContextData({ visible: true, posX: event.clientX, posY: event.clientY })
+                const tileIndex = event.target.getAttribute("index");
+                if (tileIndex) {
+                    event.preventDefault();
+                    setContextData({ visible: true, posX: event.clientX, posY: event.clientY, targetTileIndex: tileIndex })
+                }
             } else if(contextRef.current && !contextRef.current.contains(event.target)){
                 setContextData({ ...contextData, visible: false })
             }
@@ -23,13 +26,13 @@ const ContextMenu= ({ targetId, options, classes, gridSetStartingPoint, gridSetF
                 return;
             }
 
-            console.log('Clicked on: ', event.target, 'Context menu: ', contextRef.current, 'Context data: ', contextData, 'Target id: ', targetId, 'Event: ', event);
-
             if (event.target.innerText === "Set starting point") {
-                gridSetStartingPoint(1);
+                gridSetStartingPoint(contextData.targetTileIndex);
             } else if (event.target.innerText === "Set finish point") {
-                gridSetFinishPoint(1);
+                gridSetFinishPoint(contextData.targetTileIndex);
             }
+
+            setContextData({ ...contextData, visible: false })
         }
 
         document.addEventListener('contextmenu', contextMenuEventHandler)

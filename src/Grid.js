@@ -19,7 +19,7 @@ class Grid extends React.Component {
                     is_finish: index === 99,
                 })),
         };
-        this.grid = this.state.grid;
+        //this.grid = this.state.grid;
     }
 
     handleMouseDown = (eventData, index) => {
@@ -29,11 +29,11 @@ class Grid extends React.Component {
         }
         last_tile_mouse_down = index;
         is_pressing = true;
-        is_coloring_or_erasing = !this.grid[index].is_colored;
+        is_coloring_or_erasing = !this.state.grid[index].is_colored;
 
-        if (this.grid[index].is_start || this.grid[index].is_finish) return;
+        if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
 
-        const newGrid = [...this.grid];
+        const newGrid = [...this.state.grid];
         newGrid[index].is_colored = is_coloring_or_erasing;
         this.setState({ grid: newGrid });
     };
@@ -45,9 +45,9 @@ class Grid extends React.Component {
 
     handleMouseEnter = (index) => {
         if (is_pressing) {
-            if (this.grid[index].is_start || this.grid[index].is_finish) return;
+            if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
 
-            const newGrid = [...this.grid];
+            const newGrid = [...this.state.grid];
             newGrid[index].is_colored = is_coloring_or_erasing;
             this.setState({ grid: newGrid });
         }
@@ -59,12 +59,12 @@ class Grid extends React.Component {
             ...tile,
             is_colored: false,
         }));
-        this.grid = clearedGrid;
+        this.state.grid = clearedGrid;
         this.setState({ grid: clearedGrid });
     };
 
     setStartingPoint = (index) => {
-        console.log("Setting starting point");
+        console.log("Setting starting point: ", index);
     }
 
     setFinishPoint = (index) => {
