@@ -1,17 +1,14 @@
 import React from 'react';
 import Tile from './Tile';
 
-var last_tile_mouse_down = -1;
-var last_tile_mouse_up = -1;
-var is_pressing = false;
-var is_coloring_or_erasing = true; // true = coloring, false = erasing
+let last_tile_mouse_down = -1;
+let last_tile_mouse_up = -1;
+let is_pressing = false;
+let is_coloring_or_erasing = true; // true = coloring, false = erasing
 
 class Grid extends React.Component {
     constructor(props) {
         super(props);
-
-        // console.debug("Grid constructor", this.props);
-
         // When we go outside grid with mouseup, it doesn't trigger.
         // So we need to listen to mouseup on window.
         window.addEventListener('mouseup', () => {
