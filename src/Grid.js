@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Tile from './Tile';
 
 var last_tile_mouse_down = -1;
@@ -6,27 +6,41 @@ var last_tile_mouse_up = -1;
 var is_pressing = false;
 var is_coloring_or_erasing = true; // true = coloring, false = erasing
 
-
 class Grid extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            grid: Array(100)
-                .fill(false)
-                .map((_, index) => ({
-                    is_colored: false,
-                    is_start: index === 0,
-                    is_finish: index === 99,
-                })),
-            start_index: 0,
-            finish_index: 99,
-        };
+    constructor(props) {
+        super(props);
+
+        // console.debug("Grid constructor", this.props);
 
         // When we go outside grid with mouseup, it doesn't trigger.
         // So we need to listen to mouseup on window.
         window.addEventListener('mouseup', () => {
             is_pressing = false;
         });
+
+        const rows = this.props.rows_cols;
+        const cols = this.props.rows_cols;
+        const size = rows * cols;
+
+        // Initialize grid of size 100
+        const grid = Array(size)
+            .fill(false)
+            .map((_, index) => ({
+                is_colored: false,
+                is_start: index === 0,
+                is_finish: index === (size-1),
+                is_path_colored: false,
+            }));
+
+        this.state ={
+            grid: grid,
+            start_index: 0,
+            finish_index: (size-1),
+            rows_cols: this.props.rows_cols,
+            grid_refs: Array(size).fill(React.createRef()),
+        };
+
+        // console.log(this.state);
     }
 
     handleMouseDown = (eventData, index) => {
@@ -65,7 +79,7 @@ class Grid extends React.Component {
 
     clear_grid = () => {
         this.setStartingPoint(0);
-        this.setFinishPoint(99);
+        this.setFinishPoint((this.props.rows_cols*this.props.rows_cols)-1);
 
         // Clear the grid by setting all tiles to uncolored
         const clearedGrid = this.state.grid.map((tile) => ({
@@ -92,16 +106,41 @@ class Grid extends React.Component {
         this.setState({ grid: this.state.grid });
     }
 
+    algo_accessRequest = (index) => {
+        /**
+         * This function is called for each tile that the algorithm wants to access.
+         * This function will just color the tile in a different color.
+         */
+        const tile = this.state.grid[index];
+        // const tile_ref = this.state.grid_refs[index];
+        // console.log("tile: ", tile);
+        // console.log("tile ref: ", tile_ref);
+        if (tile.is_start || tile.is_finish) return;
+
+        console.log(this.props);
+
+
+        tile.is_path_colored = true;
+        this.setState({ grid: this.state.grid });
+    }
+
     render() {
         return (
-            <div className="grid_container" onMouseLeave={this.handleGridMouseLeave}>
+            <div
+                className="grid_container"
+                onMouseLeave={this.handleGridMouseLeave}
+                style={{ gridTemplateColumns: `repeat(${this.props.rows_cols}, 1fr)` }}
+            >
                 {this.state.grid.map((tile, index) => (
                     <Tile
                         key={index}
                         index={index}
+                        ref={input => (this.state.grid_refs[index] = input)}
+                        // rows_cols={this.props.rows_cols}
                         is_colored={tile.is_colored.toString()}
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}
+                        is_path_colored={tile.is_path_colored.toString()}
                         onMouseDown={(eventData) => this.handleMouseDown(eventData, index)}
                         onMouseUp={() => this.handleTileMouseUp(index)}
                         onMouseEnter={() => this.handleTileMouseEnter(index)}

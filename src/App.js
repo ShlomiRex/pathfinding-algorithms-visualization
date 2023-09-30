@@ -2,9 +2,10 @@ import React from 'react';
 import Grid from './Grid';
 import ContextMenu from './ContextMenu';
 import findPathDFS from './algo/DFS';
-
+import styled from 'styled-components';
 import './App.css';
 
+const ROWS_COLS = 5;
 
 function App() {
     const gridRef = React.createRef();
@@ -31,7 +32,13 @@ function App() {
         const algo = document.getElementById("algo_select").value;
         const state = gridRef.current.state;
         if (algo === "dfs") {
-            findPathDFS(state.grid, 10, 10, state.start_index, state.finish_index);
+            findPathDFS(
+                state.grid,
+                ROWS_COLS,
+                ROWS_COLS,
+                state.start_index,
+                state.finish_index,
+                gridRef.current.algo_accessRequest);
         } else {
             console.log("Unknown algorithm");
         }
@@ -71,7 +78,7 @@ function App() {
                         gridSetStartingPoint = {set_starting_point}
                         gridSetFinishPoint = {set_finish_point}
                     />
-                    <Grid ref={gridRef} />
+                    <Grid ref={gridRef} rows_cols={ROWS_COLS} />
                 </div>
             </div>
 

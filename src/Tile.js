@@ -1,21 +1,9 @@
-import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
-
-const TileContainer = styled.div`
-  ${(props) =>
-          props.index < 90 &&
-          css`
-            border-bottom: none;
-          `}
-`;
+import React, {Component } from 'react';
 
 class Tile extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            index: props.index,
-        }
     }
 
     render() {
@@ -24,18 +12,21 @@ class Tile extends Component {
             is_colored,
             is_start,
             is_finish,
+            is_path_colored,
             onMouseDown,
             onMouseUp,
             onMouseEnter,
         } = this.props;
 
         return (
-            <TileContainer
+            <div
                 className="Tile"
                 index={index}
+                // rows_cols={rows_cols}
                 is_colored={is_colored}
                 is_start={is_start}
                 is_finish={is_finish}
+                is_path_colored={is_path_colored}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onMouseEnter={onMouseEnter}
@@ -44,7 +35,7 @@ class Tile extends Component {
                 <span>
                     {index}
                 </span>
-            </TileContainer>
+            </div>
         );
     }
 }

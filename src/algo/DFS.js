@@ -1,3 +1,5 @@
+const SLEEP_TIME = 50;
+
 function getNeighbors(grid, index, rows, columns) {
     /**
      * Get the neighbors of the given index
@@ -70,7 +72,12 @@ function is_valid(grid, index, rows, columns, visited) {
     return true;
 }
 
-export default function findDFSPath(grid, rows, columns, start_index, finish_index) {
+export default async function findDFSPath(grid,
+                                    rows,
+                                    columns,
+                                    start_index,
+                                    finish_index,
+                                    grid_accessRequest_callback) {
     // Implement DFS algorithm
     // Return an array of indexes that represent the path
     // If no path exists, return an empty array
@@ -95,6 +102,8 @@ export default function findDFSPath(grid, rows, columns, start_index, finish_ind
     while (stack.length > 0) {
         // Get the current index
         let current_index = stack.pop();
+        grid_accessRequest_callback(current_index);
+        await new Promise(r => setTimeout(r, SLEEP_TIME));
 
         console.log("Current index: ", current_index);
 
@@ -111,6 +120,13 @@ export default function findDFSPath(grid, rows, columns, start_index, finish_ind
         for (let i = 0; i < neighbors.length; i++) {
             // Check each neighbor
             const neighbor = neighbors[i];
+
+            // Check if finish
+            if (neighbor === finish_index) {
+                path.push(neighbor);
+                found = true;
+                break;
+            }
 
             // Check valid
             const isValid = is_valid(grid, neighbor, rows, columns, visited);
@@ -130,6 +146,13 @@ export default function findDFSPath(grid, rows, columns, start_index, finish_ind
 
     if (found) {
         console.log("Path found");
+        // Show path
+        for (let i = 0; i < path.length; i++) {
+            const index = path[i];
+            console.log(index);
+            grid_accessRequest_callback(index);
+            await new Promise(r => setTimeout(r, SLEEP_TIME));
+        }
     } else {
         console.log("No path found");
     }
