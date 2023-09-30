@@ -4,13 +4,17 @@ import ContextMenu from './ContextMenu';
 import findPathDFS from './algo/DFS';
 import './App.css';
 
-const ROWS_COLS = 5;
+const ROWS_COLS = 10;
 
 class App extends Component {
     constructor(props) {
         super(props);
 
         this.gridRef = React.createRef(); // Create a ref for the Grid component
+
+        this.state = {
+            is_running_algo: false
+        };
     }
 
     clearGrid = () => {
@@ -35,14 +39,18 @@ class App extends Component {
         const algo = document.getElementById("algo_select").value;
         const state = this.gridRef.current.state;
         if (algo === "dfs") {
-            findPathDFS(
-                state.grid,
-                ROWS_COLS,
-                ROWS_COLS,
-                state.start_index,
-                state.finish_index,
-                this.gridRef.current.algoAccessRequest
-            );
+            this.setState( {is_running_algo: true} , async () => {
+                await findPathDFS(
+                    state.grid,
+                    ROWS_COLS,
+                    ROWS_COLS,
+                    state.start_index,
+                    state.finish_index,
+                    this.gridRef.current.algoAccessRequest,
+                );
+                console.log("Finished");
+                this.setState({is_running_algo: false});
+            } );
         } else {
             console.log("Unknown algorithm");
         }
@@ -67,8 +75,8 @@ class App extends Component {
                             <option value="dijkstra">Dijkstra</option>
                             <option value="a_star">A*</option>
                         </select>
-                        <button onClick={this.runAlgo}>Run</button>
-                        <button disabled={true}>Stop</button>
+                        <button onClick={this.runAlgo} disabled={this.state.is_running_algo}>Run</button>
+                        <button disabled={!this.state.is_running_algo}>Stop</button>
                     </div>
                 </div>
                 <div className='wrapper'>

@@ -82,8 +82,9 @@ class Grid extends React.Component {
         const clearedGrid = this.state.grid.map((tile) => ({
             ...tile,
             is_colored: false,
+            is_path_colored: false,
         }));
-        this.state.grid = clearedGrid;
+
         this.setState({ grid: clearedGrid });
     };
 
@@ -103,7 +104,7 @@ class Grid extends React.Component {
         this.setState({ grid: this.state.grid });
     }
 
-    algo_accessRequest = (index) => {
+    algoAccessRequest = (index) => {
         /**
          * This function is called for each tile that the algorithm wants to access.
          * This function will just color the tile in a different color.
@@ -113,9 +114,6 @@ class Grid extends React.Component {
         // console.log("tile: ", tile);
         // console.log("tile ref: ", tile_ref);
         if (tile.is_start || tile.is_finish) return;
-
-        console.log(this.props);
-
 
         tile.is_path_colored = true;
         this.setState({ grid: this.state.grid });
@@ -133,7 +131,6 @@ class Grid extends React.Component {
                         key={index}
                         index={index}
                         ref={input => (this.state.grid_refs[index] = input)}
-                        // rows_cols={this.props.rows_cols}
                         is_colored={tile.is_colored.toString()}
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}

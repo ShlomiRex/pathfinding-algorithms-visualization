@@ -99,13 +99,13 @@ export default async function findDFSPath(grid,
     let found = false;
 
     // Run the algorithm
-    while (stack.length > 0) {
+    while (stack.length > 0 && !found) {
         // Get the current index
         let current_index = stack.pop();
         grid_accessRequest_callback(current_index);
         await new Promise(r => setTimeout(r, SLEEP_TIME));
 
-        console.log("Current index: ", current_index);
+        // console.log("Current index: ", current_index);
 
         // Check if the current index is the finish index
         if (current_index === finish_index) {
@@ -116,7 +116,7 @@ export default async function findDFSPath(grid,
         // Get cells adjacent to the current cell
         const neighbors = getNeighbors(grid, current_index, rows, columns);
 
-        var valid_neighbors = [];
+        const valid_neighbors = [];
         for (let i = 0; i < neighbors.length; i++) {
             // Check each neighbor
             const neighbor = neighbors[i];
@@ -141,18 +141,18 @@ export default async function findDFSPath(grid,
             // Mark the current index as visited
             visited[current_index] = true;
         }
-        console.log("Valid neighbors: ", valid_neighbors);
+        // console.log("Valid neighbors: ", valid_neighbors);
     }
 
     if (found) {
         console.log("Path found");
         // Show path
-        for (let i = 0; i < path.length; i++) {
-            const index = path[i];
-            console.log(index);
-            grid_accessRequest_callback(index);
-            await new Promise(r => setTimeout(r, SLEEP_TIME));
-        }
+        // for (let i = 0; i < path.length; i++) {
+        //     const index = path[i];
+        //     console.log(index);
+        //     grid_accessRequest_callback(index);
+        //     await new Promise(r => setTimeout(r, SLEEP_TIME));
+        // }
     } else {
         console.log("No path found");
     }
