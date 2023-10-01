@@ -9,10 +9,11 @@ class Tile extends Component {
     render() {
         const {
             index,
-            is_colored,
+            is_wall,
             is_start,
             is_finish,
             is_path_colored,
+            is_discovered,
             onMouseDown,
             onMouseUp,
             onMouseEnter,
@@ -23,10 +24,11 @@ class Tile extends Component {
                 className="Tile"
                 index={index}
                 // rows_cols={rows_cols}
-                is_colored={is_colored}
+                is_wall={is_wall}
                 is_start={is_start}
                 is_finish={is_finish}
                 is_path_colored={is_path_colored}
+                is_discovered={is_discovered}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onMouseEnter={onMouseEnter}

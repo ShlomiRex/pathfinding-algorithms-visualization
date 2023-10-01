@@ -23,10 +23,11 @@ class Grid extends React.Component {
         const grid = Array(size)
             .fill(false)
             .map((_, index) => ({
-                is_colored: false,
+                is_wall: false,
                 is_start: index === 0,
                 is_finish: index === (size-1),
                 is_path_colored: false,
+                is_discovered: false,
             }));
 
         this.state ={
@@ -45,13 +46,16 @@ class Grid extends React.Component {
         if (eventData.button === 2) {
             return;
         }
+
+        const tile = this.state.grid[index];
+
         last_tile_mouse_down = index;
         is_pressing = true;
-        is_coloring_or_erasing = !this.state.grid[index].is_colored;
+        is_coloring_or_erasing = !tile.is_wall;
 
-        if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
+        if (tile.is_start || tile.is_finish || tile.is_path_colored) return;
 
-        this.state.grid[index].is_colored = is_coloring_or_erasing;
+        tile.is_wall = is_coloring_or_erasing;
         this.setState({ grid: this.state.grid });
     };
 
@@ -66,10 +70,11 @@ class Grid extends React.Component {
     }
 
     handleTileMouseEnter = (index) => {
+        const tile = this.state.grid[index];
         if (is_pressing) {
-            if (this.state.grid[index].is_start || this.state.grid[index].is_finish) return;
+            if (tile.is_start || tile.is_finish || tile.is_path_colored) return;
 
-            this.state.grid[index].is_colored = is_coloring_or_erasing;
+            tile.is_wall = is_coloring_or_erasing;
             this.setState({ grid: this.state.grid });
         }
     };
@@ -81,8 +86,9 @@ class Grid extends React.Component {
         // Clear the grid by setting all tiles to uncolored
         const clearedGrid = this.state.grid.map((tile) => ({
             ...tile,
-            is_colored: false,
+            is_wall: false,
             is_path_colored: false,
+            is_discovered: false,
         }));
 
         this.setState({ grid: clearedGrid });
@@ -119,6 +125,18 @@ class Grid extends React.Component {
         this.setState({ grid: this.state.grid });
     }
 
+    setTileDiscovered = (index) => {
+        /**
+         * This function is called for each tile that the algorithm discovered (neighbor).
+         * This function will just color the tile in a different color.
+         */
+        const tile = this.state.grid[index];
+        if (tile.is_start || tile.is_finish) return;
+
+        tile.is_discovered = true;
+        this.setState({ grid: this.state.grid });
+    }
+
     render() {
         return (
             <div
@@ -131,10 +149,11 @@ class Grid extends React.Component {
                         key={index}
                         index={index}
                         ref={input => (this.state.grid_refs[index] = input)}
-                        is_colored={tile.is_colored.toString()}
+                        is_wall={tile.is_wall.toString()}
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}
                         is_path_colored={tile.is_path_colored.toString()}
+                        is_discovered={tile.is_discovered.toString()}
                         onMouseDown={(eventData) => this.handleMouseDown(eventData, index)}
                         onMouseUp={() => this.handleTileMouseUp(index)}
                         onMouseEnter={() => this.handleTileMouseEnter(index)}

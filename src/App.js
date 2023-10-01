@@ -47,6 +47,7 @@ class App extends Component {
                     state.start_index,
                     state.finish_index,
                     this.gridRef.current.algoAccessRequest,
+                    this.gridRef.current.setTileDiscovered,
                 );
                 console.log("Finished");
                 this.setState({is_running_algo: false});

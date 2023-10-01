@@ -60,7 +60,7 @@ function is_valid(grid, index, rows, columns, visited) {
     }
 
     // If wall, not valid
-    if (grid[index].is_colored === true) {
+    if (grid[index].is_wall === true) {
         return false;
     }
 
@@ -77,7 +77,8 @@ export default async function findDFSPath(grid,
                                     columns,
                                     start_index,
                                     finish_index,
-                                    grid_accessRequest_callback) {
+                                    setTileAsPath,
+                                    setTileDiscovered) {
     // Implement DFS algorithm
     // Return an array of indexes that represent the path
     // If no path exists, return an empty array
@@ -92,8 +93,8 @@ export default async function findDFSPath(grid,
         visited.push(false);
     }
 
-    // Initialize the path array
-    let path = [];
+    // Initialize the path set
+    let path = new Set();
 
     // Initialize the found variable
     let found = false;
@@ -102,7 +103,7 @@ export default async function findDFSPath(grid,
     while (stack.length > 0 && !found) {
         // Get the current index
         let current_index = stack.pop();
-        grid_accessRequest_callback(current_index);
+        setTileAsPath(current_index);
         await new Promise(r => setTimeout(r, SLEEP_TIME));
 
         // console.log("Current index: ", current_index);
@@ -116,14 +117,13 @@ export default async function findDFSPath(grid,
         // Get cells adjacent to the current cell
         const neighbors = getNeighbors(grid, current_index, rows, columns);
 
-        const valid_neighbors = [];
         for (let i = 0; i < neighbors.length; i++) {
             // Check each neighbor
             const neighbor = neighbors[i];
 
             // Check if finish
             if (neighbor === finish_index) {
-                path.push(neighbor);
+                path.add(neighbor);
                 found = true;
                 break;
             }
@@ -132,27 +132,22 @@ export default async function findDFSPath(grid,
             const isValid = is_valid(grid, neighbor, rows, columns, visited);
 
             if (isValid) {
-                // Add the neighbor index to the path
-                path.push(neighbor);
                 stack.push(neighbor);
-                valid_neighbors.push(neighbor);
+                setTileDiscovered(neighbor);
             }
 
-            // Mark the current index as visited
             visited[current_index] = true;
+            path.add(current_index);
         }
         // console.log("Valid neighbors: ", valid_neighbors);
     }
 
+    path.delete(start_index);
+
     if (found) {
         console.log("Path found");
-        // Show path
-        // for (let i = 0; i < path.length; i++) {
-        //     const index = path[i];
-        //     console.log(index);
-        //     grid_accessRequest_callback(index);
-        //     await new Promise(r => setTimeout(r, SLEEP_TIME));
-        // }
+        // Print path
+        console.log("Path: ", path);
     } else {
         console.log("No path found");
     }
