@@ -1,5 +1,3 @@
-const SLEEP_TIME = 50;
-
 function getNeighbors(grid, index, rows, columns) {
     /**
      * Get the neighbors of the given index
@@ -104,7 +102,8 @@ export default async function findDFSPath(grid,
         // Get the current index
         let current_index = stack.pop();
         setTileAsPath(current_index);
-        await new Promise(r => setTimeout(r, SLEEP_TIME));
+
+        await new Promise(r => setTimeout(r, document.getElementById("slider_algo_delay").value));
 
         // console.log("Current index: ", current_index);
 
@@ -139,14 +138,11 @@ export default async function findDFSPath(grid,
             visited[current_index] = true;
             path.add(current_index);
         }
-        // console.log("Valid neighbors: ", valid_neighbors);
     }
 
     path.delete(start_index);
 
     if (found) {
-        console.log("Path found");
-        // Print path
         console.log("Path: ", path);
     } else {
         console.log("No path found");

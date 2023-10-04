@@ -12,7 +12,7 @@ class Tile extends Component {
             is_wall,
             is_start,
             is_finish,
-            is_path_colored,
+            is_path,
             is_discovered,
             onMouseDown,
             onMouseUp,
@@ -27,7 +27,7 @@ class Tile extends Component {
                 is_wall={is_wall}
                 is_start={is_start}
                 is_finish={is_finish}
-                is_path_colored={is_path_colored}
+                is_path={is_path}
                 is_discovered={is_discovered}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}

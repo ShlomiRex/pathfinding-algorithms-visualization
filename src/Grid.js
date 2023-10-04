@@ -26,7 +26,7 @@ class Grid extends React.Component {
                 is_wall: false,
                 is_start: index === 0,
                 is_finish: index === (size-1),
-                is_path_colored: false,
+                is_path: false,
                 is_discovered: false,
             }));
 
@@ -53,7 +53,7 @@ class Grid extends React.Component {
         is_pressing = true;
         is_coloring_or_erasing = !tile.is_wall;
 
-        if (tile.is_start || tile.is_finish || tile.is_path_colored) return;
+        if (tile.is_start || tile.is_finish || tile.is_path) return;
 
         tile.is_wall = is_coloring_or_erasing;
         this.setState({ grid: this.state.grid });
@@ -72,7 +72,7 @@ class Grid extends React.Component {
     handleTileMouseEnter = (index) => {
         const tile = this.state.grid[index];
         if (is_pressing) {
-            if (tile.is_start || tile.is_finish || tile.is_path_colored) return;
+            if (tile.is_start || tile.is_finish || tile.is_path) return;
 
             tile.is_wall = is_coloring_or_erasing;
             this.setState({ grid: this.state.grid });
@@ -87,7 +87,7 @@ class Grid extends React.Component {
         const clearedGrid = this.state.grid.map((tile) => ({
             ...tile,
             is_wall: false,
-            is_path_colored: false,
+            is_path: false,
             is_discovered: false,
         }));
 
@@ -121,7 +121,7 @@ class Grid extends React.Component {
         // console.log("tile ref: ", tile_ref);
         if (tile.is_start || tile.is_finish) return;
 
-        tile.is_path_colored = true;
+        tile.is_path = true;
         this.setState({ grid: this.state.grid });
     }
 
@@ -152,7 +152,7 @@ class Grid extends React.Component {
                         is_wall={tile.is_wall.toString()}
                         is_start={tile.is_start.toString()}
                         is_finish={tile.is_finish.toString()}
-                        is_path_colored={tile.is_path_colored.toString()}
+                        is_path={tile.is_path.toString()}
                         is_discovered={tile.is_discovered.toString()}
                         onMouseDown={(eventData) => this.handleMouseDown(eventData, index)}
                         onMouseUp={() => this.handleTileMouseUp(index)}

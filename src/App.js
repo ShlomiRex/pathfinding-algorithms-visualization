@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
 import ContextMenu from './ContextMenu';
+import ControlPane from './ControlPane';
 import findPathDFS from './algo/DFS';
 import './App.css';
 
@@ -66,20 +67,8 @@ class App extends Component {
                     <br></br>
                     Source code: <a href="https://github.com/ShlomiRex/pathfinding-algorithms-visualization">github repo</a>
                 </p>
-                <div className="buttonPane">
-                    <button onClick={this.clearGrid}>Clear grid</button>
-                    <div>
-                        Select algorithm:
-                        <select id="algo_select">
-                            <option value="dfs">DFS</option>
-                            <option value="bfs">BFS</option>
-                            <option value="dijkstra">Dijkstra</option>
-                            <option value="a_star">A*</option>
-                        </select>
-                        <button onClick={this.runAlgo} disabled={this.state.is_running_algo}>Run</button>
-                        <button disabled={!this.state.is_running_algo}>Stop</button>
-                    </div>
-                </div>
+                <ControlPane
+                    app={this}></ControlPane>
                 <div className='wrapper'>
                     <div id='customContextmenuArea1' className='customContextmenuArea1' >
                         <ContextMenu

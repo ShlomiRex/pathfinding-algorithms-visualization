@@ -1,0 +1,15 @@
+.controlPane {
+    display: flex;
+    width: fit-content;
+    background-color: #f0f0f0;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.controlPaneWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
