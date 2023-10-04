@@ -103,8 +103,6 @@ export default async function findDFSPath(grid,
         let current_index = stack.pop();
         setTileAsPath(current_index);
 
-        await new Promise(r => setTimeout(r, document.getElementById("slider_algo_delay").value));
-
         // console.log("Current index: ", current_index);
 
         // Check if the current index is the finish index
@@ -138,6 +136,7 @@ export default async function findDFSPath(grid,
             visited[current_index] = true;
             path.add(current_index);
         }
+        await new Promise(r => setTimeout(r, document.getElementById("slider_algo_delay").value));
     }
 
     path.delete(start_index);
