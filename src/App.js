@@ -61,12 +61,14 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Pathfinding Algorithms Visualizer</h1>
-                <p>
-                    Made by: Shlomi Domnenko
-                    <br></br>
-                    Source code: <a href="https://github.com/ShlomiRex/pathfinding-algorithms-visualization">github repo</a>
-                </p>
+                <div className="title">
+                    <h1>Pathfinding Algorithms Visualizer</h1>
+                    <p>
+                        Made by: Shlomi Domnenko
+                        <br></br>
+                        Source code: <a href="https://github.com/ShlomiRex/pathfinding-algorithms-visualization">github repo</a>
+                    </p>
+                </div>
                 <ControlPane
                     app={this}></ControlPane>
                 <div className='wrapper'>

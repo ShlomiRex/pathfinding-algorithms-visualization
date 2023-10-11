@@ -1,8 +1,6 @@
 import React from 'react';
 import Tile from './Tile';
 
-let last_tile_mouse_down = -1;
-let last_tile_mouse_up = -1;
 let is_pressing = false;
 let is_coloring_or_erasing = true; // true = coloring, false = erasing
 
@@ -49,7 +47,6 @@ class Grid extends React.Component {
 
         const tile = this.state.grid[index];
 
-        last_tile_mouse_down = index;
         is_pressing = true;
         is_coloring_or_erasing = !tile.is_wall;
 
@@ -60,14 +57,8 @@ class Grid extends React.Component {
     };
 
     handleTileMouseUp = (index) => {
-        last_tile_mouse_up = index;
         is_pressing = false;
     };
-
-    handleGridMouseLeave = () => {
-        last_tile_mouse_down = -1;
-        last_tile_mouse_up = -1;
-    }
 
     handleTileMouseEnter = (index) => {
         const tile = this.state.grid[index];
@@ -80,8 +71,8 @@ class Grid extends React.Component {
     };
 
     clear_grid = () => {
-        this.setStartingPoint(0);
-        this.setFinishPoint((this.props.rows_cols*this.props.rows_cols)-1);
+        //this.setStartingPoint(0);
+        //this.setFinishPoint((this.props.rows_cols*this.props.rows_cols)-1);
 
         // Clear the grid by setting all tiles to uncolored
         const clearedGrid = this.state.grid.map((tile) => ({
